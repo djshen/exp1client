@@ -1,0 +1,6 @@
+libvlc.dll
+libvlccore.dll
+plugins/*
+*.class
+*.swp
+*.log
