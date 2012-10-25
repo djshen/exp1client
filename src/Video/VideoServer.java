@@ -30,12 +30,16 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.mrl.RtspMrl;
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 
+import javafx.embed.swing.*;
+import javafx.application.*;
+
 public class VideoServer extends VideoBase
 {
 private final MediaPlayerFactory mediaPlayerFactory;
 private final EmbeddedMediaPlayer localMediaPlayer;
 
 private final JFrame frame;
+//private final JFXPanel pane;
 private final JPanel contentPane;
 private final JPanel sourceControls;
 private final JPanel videoPanel;
@@ -53,7 +57,9 @@ private final JButton sendSnapshotButton;
 
 private final CanvasVideoSurface localVideoSurface;
 
-public static void main(String[] args) throws Exception 
+private String roomname;
+
+/*public static void main(String[] args) throws Exception 
 {
    setLookAndFeel();
 
@@ -65,10 +71,13 @@ public static void main(String[] args) throws Exception
          new VideoServer().start();
       }
    });
-}
+}*/
 
-public VideoServer() 
+public VideoServer(String rn) 
 {
+   roomname = rn;
+   setLookAndFeel();
+
    mediaPlayerFactory = new MediaPlayerFactory("--no-video-title-show");
    localMediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
 
@@ -138,6 +147,8 @@ public VideoServer()
    frame.setContentPane(contentPane);
    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    frame.pack();
+	//pane = new JFXPanel();
+
 
    sendButton.addActionListener(new ActionListener() 
    {
@@ -159,16 +170,16 @@ public VideoServer()
 
 }
 
-private void start() 
+public void start() 
 {
    mediaTextField.setText(!RuntimeUtil.isWindows() ? "v4l2:///dev/video0" : "dshow://");
 
-   streamToTextField.setText("230.0.0.1:5555");
+   streamToTextField.setText(":8554/" + roomname);
 
    frame.setVisible(true);
 }
 
-private void send() 
+public void send() 
 {
    String mrl = mediaTextField.getText();
    String streamTo = streamToTextField.getText();
@@ -202,10 +213,20 @@ private void send()
             System.out.println(items);
          }
       });
-      String[] localOptions = {":sout=#transcode{vcodec=mp2v,vb=800,scale=1,acodec=mpga,ab=128,channels=2,samplerate=44100}:duplicate{dst=display,dst=rtp{sdp=rtsp://"+streamTo+"}}", ":sout-all", ":sout-keep", ":network-caching=2000"};
+      String[] localOptions = {":sout=#transcode{vcodec=mp2v,vb=100,scale=1,acodec=mpga,ab=128,channels=2,samplerate=44100}:duplicate{dst=display,dst=rtp{sdp=rtsp://"+streamTo+"}}", ":sout-all", ":sout-keep", ":network-caching=2000"};
       localMediaPlayer.playMedia(mrl, localOptions);
    }
 }
+
+public void stop()
+{
+	if(localMediaPlayer.isPlaying())
+	{
+		localMediaPlayer.release();
+	}
+	frame.setVisible(false);
+}
+
 private static String formatRtspStream(String mrl) 
 {
    StringBuilder sb = new StringBuilder(60);
