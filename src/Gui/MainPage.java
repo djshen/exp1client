@@ -53,7 +53,7 @@ public MainPage(String username, MainGui mg, Client c)
    client = c;
 
    //Image i = new Image(picPath + username + ".jpg");
-   Image i = new Image("http://140.112.18.211/exp1/commonimg/img1.jpg", 200, 150, true, true);
+   Image i = new Image("http://140.112.18.211/exp1/userimg/"+username+".jpg", 200, 150, true, true);
    pictureButton = new Button("", new ImageView(i));
    pictureButton.setPrefSize(200, 150);
    pictureButton.setOnAction(new EventHandler<ActionEvent>()
@@ -70,9 +70,10 @@ public MainPage(String username, MainGui mg, Client c)
             {
                try
                {
-                  String[] s = { "-s", "-b", "localhost:2221", "IMG", "IMG", client.getName() + ".jpg", localPath };
+                  String[] s = { "-s", "-b", "140.112.18.211:2221", "IMG", "IMG", client.getName() + ".jpg", localPath };
                   FtpClient ftp = new FtpClient(s);
                   //client.picNeedUpdate();
+						mainGui.stage.sizeToScene();
                }
                catch(Exception e){}
             }

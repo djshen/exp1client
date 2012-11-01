@@ -63,7 +63,7 @@ public MessageArea(Client c, String rn)
    browser = new WebView();
    browser.setPrefSize(700, 400);
    webEngine = browser.getEngine();
-   webEngine.load("file:///home/jack1/eclipse_workspace/test2/src/index.html");
+   webEngine.load("http://140.112.18.211/exp1/page.html");
    VBox vb1 = new VBox();
    vb1.getChildren().add(browser);
    vb1.setStyle("-fx-border-color: #115599; -fx-border-width: 2px;");

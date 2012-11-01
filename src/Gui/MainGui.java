@@ -14,7 +14,7 @@ import java.util.*;
  
 public class MainGui extends Application 
 {
-final private Client client = new Client(this, "localhost", 22222);
+final private Client client = new Client(this, "140.112.18.211", 22222);
 public Stage stage;
 private Group root;
 private LoginPane loginPane;

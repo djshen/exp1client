@@ -245,13 +245,13 @@ public LocalLive(String rn)
          }
       }
    });
-   video = new ToggleButton("Video");
-   video.setPrefSize(60, 40);
+   //video = new ToggleButton("Video");
+   //video.setPrefSize(60, 40);
 
    ToggleGroup group = new ToggleGroup();
    no.setToggleGroup(group);
    webcam.setToggleGroup(group);
-   video.setToggleGroup(group);
+   //video.setToggleGroup(group);
    group.selectToggle(no);
 
    chooseFileButton = new Button("Choose File");
@@ -261,12 +261,12 @@ public LocalLive(String rn)
    launchButton.setPrefSize(100, 40);
 
    HBox hb = new HBox();
-   hb.getChildren().addAll(no, webcam, video);
+   hb.getChildren().addAll(no, webcam/*, video*/);
 
    vRoot = new VBox();
    vRoot.setStyle("-fx-spacing: 5; -fx-alignment: center; -fx-border-color: #446688; -fx-border-width: 1px;");
    vRoot.setPrefSize(200, 300);
-   vRoot.getChildren().addAll(hb, chooseFileButton, launchButton);
+   vRoot.getChildren().addAll(hb, /*chooseFileButton, */launchButton);
 }
 
 public VBox getLayout()
@@ -289,11 +289,11 @@ public RemoteLive(String rn, String un)
    username = new Label(un);
    username.setPrefSize(100, 40);
 
-   Image closeIcon = new Image("file:///home/jack1/eclipse_workspace/exp1/exp1client/src/img/X.png", 30, 30, true, true);
+   Image closeIcon = new Image("file:///src/img/X.png", 30, 30, true, true);
    closeButton = new ToggleButton("", new ImageView(closeIcon));
    closeButton.setPrefSize(30, 38);
 
-   Image openIcon = new Image("file:///home/jack1/eclipse_workspace/exp1/exp1client/src/img/O.png");
+   Image openIcon = new Image("file:///src/img/O.png", 30, 30, true, true);
    openButton = new ToggleButton("", new ImageView(openIcon));
    openButton.setPrefSize(30, 38);
 
@@ -348,6 +348,7 @@ public FileInfo(RoomPage rp, String un, final String fn)
             {
                try
                {
+						System.err.println(fn);
                   String[] s = { "-b", "localhost:2221", roomPage.roomname, roomPage.roomname, fn, localPath };
                   FtpClient ftp = new FtpClient(s);
                   roomPage.mainGui.showMessageDialog("File: " + fn + " is downloaded");
